@@ -1,6 +1,5 @@
 <?
 
-
 class Database{
 
     public static $conn = null;

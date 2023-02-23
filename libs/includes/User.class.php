@@ -34,7 +34,7 @@ class User{
 
     public static function login($username, $pass){
         $conn = Database::getConnection();
-        $sql = "select * from `aut` where `username` = '$username'";
+        $sql = "select * from `auth` where `username` = '$username'";
         $result = $conn->query($sql);
         if ($result->num_rows == 1){
             $row = $result->fetch_assoc();
@@ -48,6 +48,8 @@ class User{
         }
 
     }
+
+    
 
     public function __construct($username)
     {
@@ -89,5 +91,6 @@ class User{
         }
     }
 }
+
 
 ?>

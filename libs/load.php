@@ -12,7 +12,7 @@ echo $_site_config;
 
 Session::start();
 
-function get_config($key, $default = null){
+function get_config($key, $default = null){ 
     global $_site_config;
     $array = json_decode($_site_config, true);
     if(isset($array[$key])){
