@@ -5,31 +5,37 @@ class User{
   
     private $conn;
     public $id;
+    public $username;
+    public $table;
 
-    public function __call($name,$arguments){
-
-        if (substr($name,0,3) == "get"){
-            return $this->get_data($name);
-        }elseif(substr($name,0,3) == "set"){
-            return $this->set_data($name,$arguments[0]);
-        }else{
-            throw new Exception("function unavailable");
+    public function __construct($username)
+    {
+        $this->conn = Database::getConnection();
+        $this->username = $username;
+        $this->id = null;
+        $this->table = 'auth';
+        $sql = "SELECT `id` FROM `auth` WHERE `username`= '$username' OR `id` = '$username' OR `email` = '$username' LIMIT 1";
+        $result = $this->conn->query($sql);
+        if ($result->num_rows) {
+            $row = $result->fetch_assoc();
+            $this->id = $row['id']; //Updating this from database
+        } else {
+            throw new Exception("Username does't exist");
         }
     }
 
     public static function signup($username, $email, $phone, $password){
 
-        $options = ['cost'=> 10,];
+        $options = ['cost'=> 7,];
         $conn = Database::getConnection();
-        $pass = password_hash($password,PASSWORD_BCRYPT,$options);
-        $sql = "insert into `auth` (username,password,email,phone) values (`$username`,`$pass`,`$email`,`$phone`)";
-
-        if($conn->query($sql)==true){
-            $error = false;
-        }else{
-            $error = $conn->error;
-        }
-        return $error; 
+        $password = password_hash($password,PASSWORD_BCRYPT,$options);
+        $sql = "insert into `auth`(username,password,email,phone) values (`$username`,`$password`,`$email`,`$phone`)";
+        try{
+            return $conn->query($sql);
+        } catch(Exception $e){
+            echo "Error : ".$sql."<br>".$conn->error;
+            return false;
+        }       
     }
 
     public static function login($username, $pass){
@@ -49,13 +55,16 @@ class User{
 
     }
 
-    
-
-    public function __construct($username)
-    {
-        $this->conn = Database::getConnection();
+    public function __call($name,$arguments){
+        if (substr($name,0,3) == "get"){
+            return $this->get_data($name);
+        }elseif(substr($name,0,3) == "set"){
+            return $this->set_data($name,$arguments[0]);
+        }else{
+            throw new Exception("User Doesn't exsist");
+        }
     }
-
+    
     private function get_data($key){
         if(!$this->conn){
              $this->conn = Database::getConnection();
@@ -69,7 +78,7 @@ class User{
         }
 
     }
-
+   
     private function set_data($key,$value){
         if (!$this->conn){
             $this->conn = Database::getConnection();
