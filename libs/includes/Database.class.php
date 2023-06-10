@@ -23,6 +23,7 @@ class Database{
                 //new connection establishing 
                 Database::$conn = $connection;  //replacing null value with  connection
                 return Database::$conn; 
+
             }
         }else{
             //return exsisting connection 

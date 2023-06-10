@@ -1,6 +1,8 @@
 <?php
 
-// require_once "Database.class.php";
+ require_once "Database.class.php";
+ require_once "User.class.php";
+ require_once "Session.class.php";
 
 class UserSession
 {
@@ -10,10 +12,26 @@ class UserSession
     public $data;
     public $uid;
 
-    public static function authenticate($user, $pass)
+    public function __construct($token)
     {
-        //Rename login function
-        $username = User::login($user, $pass);
+        $this->conn = Database::getConnection();
+        $this->token = $token;
+        $this->data = null;
+        $sql = "SELECT * FROM `session` WHERE `token`='$token' LIMIT 1";
+        $result = $this->conn->query($sql);
+        if ($result->num_rows) {
+            $row = $result->fetch_assoc();
+            $this->data = $row;
+            $this->uid = $row['uid']; //Updating this from database
+        } else {
+            throw new Exception("Session is invalid.");
+        }
+    }
+
+    public static function authenticate($email, $pass)
+    {
+        //login fuction returns username
+        $username = User::login($email, $pass);
         if ($username) {
             $user = new User($username);
             $conn = Database::getConnection();
@@ -37,22 +55,6 @@ class UserSession
 
     public static function Authorize($token){
 
-    }
-
-    public function __construct($token)
-    {
-        $this->conn = Database::getConnection();
-        $this->token = $token;
-        $this->data = null;
-        $sql = "SELECT * FROM `session` WHERE `token`='$token' LIMIT 1";
-        $result = $this->conn->query($sql);
-        if ($result->num_rows) {
-            $row = $result->fetch_assoc();
-            $this->data = $row;
-            $this->uid = $row['uid']; //Updating this from database
-        } else {
-            throw new Exception("Session is invalid.");
-        }
     }
 
     public function getUser()

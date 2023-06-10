@@ -7,7 +7,7 @@ include_once 'includes/Usersession.class.php';
 
 global $_site_config;
 
-$_site_config = file_get_contents('/home/sarath/db_config.json');
+$_site_config = file_get_contents('/var/www/photogram_db_config.json');
 // echo $_site_config;
 
 Session::start();

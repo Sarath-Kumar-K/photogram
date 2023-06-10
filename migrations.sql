@@ -31,3 +31,24 @@ CREATE TABLE `photogram`.`users` (
     REFERENCES `photogram`.`auth` (`id`)
     ON DELETE RESTRICT
     ON UPDATE NO ACTION);
+
+
+CREATE TABLE `photogram`.`session` (
+  `id` INT NOT NULL,
+  `uid` INT NOT NULL,
+  `token` VARCHAR(32) NOT NULL,
+  `login_time` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
+  `ip` VARCHAR(12) NOT NULL,
+  `user_agent` VARCHAR(256) NULL,
+  `active` INT NULL DEFAULT 1,
+  `fingerprint` VARCHAR(32) NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_session_uid_idx` (`uid` ASC) VISIBLE,
+  CONSTRAINT `fk_session_uid`
+    FOREIGN KEY (`uid`)
+    REFERENCES `photogram`.`auth` (`id`)
+    ON DELETE RESTRICT
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_as_cs;

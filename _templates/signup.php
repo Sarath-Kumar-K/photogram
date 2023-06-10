@@ -35,8 +35,8 @@
   <body class="text-center">
     
 <main class="form-signin">
-<form method="post" action="signup.php">
-		<img class="mb-4" src="https://git.selfmade.ninja/uploads/-/system/appearance/logo/1/Logo_Dark.png" alt="" height="50">
+<form method="post" action="signup/index.php">
+		<img class="mb-4" src="https://previews.123rf.com/images/iconhome/iconhome2210/iconhome221001085/195643437-love-photography-camera-color-line-icon.jpg" alt="image" width="100" height="100">
 		<h1 class="h3 mb-3 fw-normal">Signup here</h1>
 		<div class="form-floating">
 			<input name="username" type="text" class="form-control" id="floatingInputUsername"
@@ -48,7 +48,7 @@
 			<label for="floatingInput">Phone</label>
 		</div>
 		<div class="form-floating">
-			<input name="email_address" type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+			<input name="email" type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
 			<label for="floatingInput">Email address</label>
 		</div>
 		<div class="form-floating">

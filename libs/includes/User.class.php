@@ -1,5 +1,5 @@
 <?
-require_once "Database.class.php";
+require_once $_SERVER['DOCUMENT_ROOT']."/libs/load.php";
 
 class User{
   
@@ -14,7 +14,7 @@ class User{
         $this->username = $username;
         $this->id = null;
         $this->table = 'auth';
-        $sql = "SELECT `id` FROM `auth` WHERE `username`= '$username' OR `id` = '$username' OR `email` = '$username' LIMIT 1";
+        $sql = "SELECT `id` FROM `auth` WHERE `username`= '$username' or `id` = '$username' or `email` = '$username' LIMIT 1";
         $result = $this->conn->query($sql);
         if ($result->num_rows) {
             $row = $result->fetch_assoc();
@@ -29,18 +29,17 @@ class User{
         $options = ['cost'=> 7,];
         $conn = Database::getConnection();
         $password = password_hash($password,PASSWORD_BCRYPT,$options);
-        $sql = "insert into `auth`(username,password,email,phone) values (`$username`,`$password`,`$email`,`$phone`)";
+        $sql = "INSERT INTO `photogram`.`auth` (`username`, `password`, `email`, `phone`) VALUES ('$username', '$password', '$email', '$phone')";
         try{
             return $conn->query($sql);
         } catch(Exception $e){
-            echo "Error : ".$sql."<br>".$conn->error;
             return false;
         }       
     }
 
-    public static function login($username, $pass){
+    public static function login($email, $pass){
         $conn = Database::getConnection();
-        $sql = "select * from `auth` where `username` = '$username'";
+        $sql = "select * from `auth` where `email` = '$email'";
         $result = $conn->query($sql);
         if ($result->num_rows == 1){
             $row = $result->fetch_assoc();
@@ -61,7 +60,7 @@ class User{
         }elseif(substr($name,0,3) == "set"){
             return $this->set_data($name,$arguments[0]);
         }else{
-            throw new Exception("User Doesn't exsist");
+            throw new Exception(" User Doesn't exsist");
         }
     }
     
