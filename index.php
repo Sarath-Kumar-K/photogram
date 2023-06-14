@@ -1,3 +1,7 @@
+<?php
+include_once "libs/load.php";
+
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -12,11 +16,13 @@
 
   </head>
   <body>
-    
-    <?php include '_templates/header.php';?>
-    <?php include '_templates/calltoaction.php';?>
-    <?php include '_templates/main.php';?>
-    <?php include '_templates/footer.php';?>
+
+    <?php
+    load_template("header.php");
+    load_template("calltoaction.php");
+    load_template("main.php");
+    load_template("footer.php");
+    ?>
     
    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>

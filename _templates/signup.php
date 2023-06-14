@@ -30,7 +30,7 @@
 
     
     <!-- Custom styles for this template -->
-    <link href="../css/signup.css" rel="stylesheet">
+    <link href="/css/signup.css" rel="stylesheet">
   </head>
   <body class="text-center">
     

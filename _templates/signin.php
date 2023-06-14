@@ -11,6 +11,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
     <meta name="theme-color" content="#7952b3">
 
+    <!-- jquery cdn -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 
     <style>
       .bd-placeholder-img {
@@ -30,7 +33,7 @@
 
     
     <!-- Custom styles for this template -->
-    <link href="../css/signup.css" rel="stylesheet">
+    <link href="/css/signup.css" rel="stylesheet">
   </head>
   <body class="text-center">
     
@@ -59,6 +62,21 @@
   </form>
 </main>
 
+<script>
+  // Initialize the agent at application startup.
+  const fpPromise = import('https://openfpcdn.io/fingerprintjs/v3')
+    .then(FingerprintJS => FingerprintJS.load())
+
+  // Get the visitor identifier when you need it.
+  fpPromise
+    .then(fp => fp.get())
+    .then(result => {
+      // This is the visitor identifier:
+      const visitorId = result.visitorId
+      console.log(visitorId)
+      $("#fingerprint").val(visitorId);
+    })
+</script>
 
     
   </body>

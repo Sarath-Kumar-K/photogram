@@ -24,7 +24,7 @@ class User{
         }
     }
 
-    public static function signup($username, $email, $phone, $password){
+    public static function signup($username, $password, $email, $phone){
 
         $options = ['cost'=> 7,];
         $conn = Database::getConnection();

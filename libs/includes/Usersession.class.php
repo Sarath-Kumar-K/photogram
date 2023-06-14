@@ -1,8 +1,6 @@
 <?php
 
- require_once "Database.class.php";
- require_once "User.class.php";
- require_once "Session.class.php";
+ require_once $_SERVER['DOCUMENT_ROOT']."/libs/load.php";
 
 class UserSession
 {
@@ -28,7 +26,7 @@ class UserSession
         }
     }
 
-    public static function authenticate($email, $pass)
+    public static function authenticate($email, $pass, $fingerprint)
     {
         //login fuction returns username
         $username = User::login($email, $pass);
@@ -37,13 +35,13 @@ class UserSession
             $conn = Database::getConnection();
             $ip = $_SERVER['REMOTE_ADDR'];
             $agent = $_SERVER['HTTP_USER_AGENT'];
-            $fingerprint = $_POST['fingerprint'];
-            $token = md5(rand(0, 9999999) . $ip . $agent . time());
-            $sql = "INSERT INTO `session` (`uid`, `token`, `login_time`, `ip`, `user_agent`, `active`, `fingerprint`)
-            VALUES ('$user->id', '$token', now(), '$ip', '$agent', '1', '$fingerprint')";
+            $fpjs = $fingerprint;
+            $token = md5(rand(0, 9999999) . $ip . $agent .$fingerprint. time());
+            $sql = "INSERT INTO `photogram`.`session` (`uid`, `token`, `login_time`, `ip`, `user_agent`, `active`, `fingerprint`)
+            VALUES ('$user->id', '$token', now(), '$ip', '$agent', '1', '$fpjs')";
             if ($conn->query($sql)) {
                 Session::set('session_token', $token);
-                Session::set('fingerprint', $fingerprint);
+                Session::set('fingerprint', $fpjs);
                 return $token;
             } else {
                 return false;
