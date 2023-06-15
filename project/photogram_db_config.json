@@ -1,0 +1,7 @@
+{
+    "servername" : "localhost",
+    "username" : "photogram",
+    "password" : "pass123123",
+    "dbname" : "photogram",
+    "base_path" : "/"
+}

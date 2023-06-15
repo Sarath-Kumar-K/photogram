@@ -1,3 +1,6 @@
+<?php
+require_once $_SERVER['DOCUMENT_ROOT']."/libs/load.php";
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -14,7 +17,7 @@
   </head>
   <body>
 <?php
-require_once $_SERVER['DOCUMENT_ROOT']."/libs/load.php";
+
 // $signup = false;
 if (isset($_POST['username']) and isset($_POST['phone']) and isset($_POST['email']) and isset($_POST['password'])){
     $username = $_POST['username'];
